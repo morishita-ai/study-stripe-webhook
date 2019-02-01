@@ -1,0 +1,26 @@
+service:
+  name: study-stripe-webhook
+
+plugins:
+  - serverless-webpack
+
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.ts'
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  memorySize: 128
+  timeout: 60
+  stage: ${opt:stage, 'develop'}
+  region: ap-northeast-1
+
+functions:
+  handler:
+    handler: index.handler
+    events:
+      - http:
+          path: webhook
+          method: post
+          cors: true
